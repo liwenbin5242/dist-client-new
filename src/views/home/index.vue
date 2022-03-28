@@ -17,7 +17,7 @@ export default {
   data() {
     return {
       sortable: {
-        prop: 'name', order: 'ascending'
+        prop: 'name', order: 'time'
       },
       contextMenus: [ // contextmenuClick
         { label: '查看', operation: 'viewMode' ,child: [

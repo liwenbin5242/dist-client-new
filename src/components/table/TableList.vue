@@ -67,7 +67,7 @@
         hide-on-single-page
         background
         layout="total,sizes, prev, pager, next, jumper"
-        :current-page="pagination.pageIndex"
+        :current-page="pagination.start"
         :page-sizes="[20, 30, 50, 100]"
         :page-size="pagination.pageSize"
         :total="pagination.pageTotal"
@@ -117,7 +117,7 @@ export default {
     pagination: {
       type: Object,
       default: {
-        pageIndex: 0,
+        start: 0,
         pageSize: 15,
         pageTotal: 0
       }
@@ -148,8 +148,8 @@ export default {
       this.multipleSelection = val;
       this.$emit('selectFun', { backData: this.multipleSelection });
     },
-    initPageIndex() {
-      this.$set(this.pagination, 'pageIndex', 1);
+    initstart() {
+      this.$set(this.pagination, 'start', 1);
     },
     handleSizeChange(val) {
       this.$set(this.pagination, 'pageSize', val);
@@ -157,7 +157,7 @@ export default {
     },
     // 分页导航
     handlePageChange(val) {
-      this.$set(this.pagination, 'pageIndex', val);
+      this.$set(this.pagination, 'start', val);
       //调用父组件方法
       this.$emit('pageChange', { backData: this.pagination});
     },

@@ -139,7 +139,7 @@
       <!--background-->
       <!--layout="prev, pager, next"-->
       <!--:hide-on-single-page="true"-->
-      <!--:current-page.sync="pagination.pageIndex"-->
+      <!--:current-page.sync="pagination.start"-->
       <!--:page-sizes="pagination.pageSizes"-->
       <!--:page-size="pagination.pageSize"-->
       <!--:total="pagination.total"-->
@@ -220,7 +220,7 @@
         ],
         fileList: [],
         pagination: {
-          pageIndex: 1,
+          start: 1,
           pageSize: 20,
           total: 0,
           pageSizes: [10,20,30,40,50]
@@ -270,9 +270,9 @@
       // 请求之前的准备
       beforeLoadData(onLoad){
         if (onLoad) {
-          this.pagination.pageIndex++
+          this.pagination.start++
         } else {
-          this.pagination.pageIndex = 1
+          this.pagination.start = 1
         }
         this.tableLoading = true
         this.finished = false
@@ -283,12 +283,12 @@
           userId: this.$store.state.user.userId,
           sortableProp: this.sortable.prop,
           order: this.sortable.order,
-          pageIndex: this.pagination.pageIndex,
+          start: this.pagination.start,
           pageSize: this.pagination.pageSize
         }).then(res => {
           if(onLoad){
             res.data.forEach((file,number) => {
-              file['index'] = (this.pagination.pageIndex - 1) * this.pagination.pageSize + number
+              file['index'] = (this.pagination.start - 1) * this.pagination.pageSize + number
               this.fileList.push(file)
             });
           }else{
@@ -322,7 +322,7 @@
       sortChange(column) {
         this.sortable.prop = column.prop
         this.sortable.order = column.order
-        this.pagination.pageIndex = 1
+        this.pagination.start = 1
         this.getFileList();
       },
       // 收集选中的index值作为数组 传递给rowRed判断变换样式

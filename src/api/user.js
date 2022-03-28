@@ -27,8 +27,8 @@ export function userList(params) {
 
 export function logout() {
   return request({
-    url: 'logout',
-    method: 'get'
+    url: 'user/logout',
+    method: 'post'
   })
 }
 

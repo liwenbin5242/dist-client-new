@@ -153,7 +153,7 @@ export default {
         },
         // 分页信息
         pagination: {
-          pageIndex: 1,
+          start: 1,
           pageSize: 15,
           pageTotal: 0
         },
@@ -252,7 +252,7 @@ export default {
       getMenuTree(){
         this.loading = true
         menuApi.menuTree({
-          page: this.pagination.pageIndex,
+          page: this.pagination.start,
           pageSize: this.pagination.pageSize,
           ...this.queryCondition
         }).then(res => {

@@ -141,7 +141,7 @@
         style="text-align: center"
         background
         :hide-on-single-page="true"
-        :current-page.sync="pagination.pageIndex"
+        :current-page.sync="pagination.start"
         :page-sizes="pagination.pageSizes"
         :page-size="pagination.pageSize"
         :total="pagination.total"
@@ -188,7 +188,7 @@ export default {
       hasChange: false,
       articleList: [],
       pagination: {
-        pageIndex: this.$route.query.page ? parseInt(decodeURI(this.$route.query.page)) : 1,
+        start: this.$route.query.page ? parseInt(decodeURI(this.$route.query.page)) : 1,
         pageSize: 12,
         total: 0,
       },
@@ -379,7 +379,7 @@ export default {
     getArticleList() {
       this.filterQuery()
       markdownApi.getMarkdown({
-        pageIndex: this.pagination.pageIndex,
+        start: this.pagination.start,
         pageSize: this.pagination.pageSize,
         userId: this.query.radioUser === 'my' ? this.$store.state.user.userId : this.query.userId ? this.query.userId : null,
         isRelease: this.query.radioStatus === 'release',
@@ -395,7 +395,7 @@ export default {
         })
       })
       markdownApi.getMarkdown({
-        pageIndex: this.pagination.pageIndex,
+        start: this.pagination.start,
         pageSize: this.pagination.pageSize,
         isAlonePage: this.alonePage,
         isDraft: true
@@ -404,7 +404,7 @@ export default {
       })
     },
     currentChange() {
-      this.$router.push({query: {page : this.pagination.pageIndex}})
+      this.$router.push({query: {page : this.pagination.start}})
       this.getArticleList()
     },
     newArticle() {

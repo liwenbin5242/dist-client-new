@@ -159,7 +159,7 @@ export default {
         sortOrder: 'descending'
       },
       pagination: {
-        pageIndex: 1,
+        start: 1,
         pageSize: 15,
         pageTotal: 0
       },
@@ -183,7 +183,7 @@ export default {
     },
     getHeartwingsList() {
       getHeartwings({
-        page: this.pagination.pageIndex,
+        page: this.pagination.start,
         pageSize: this.pagination.pageSize,
         order: this.queryCondition.sortOrder
       }).then((res) => {

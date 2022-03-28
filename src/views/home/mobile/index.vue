@@ -314,7 +314,7 @@ export default {
         {'folder': '+', index: 1}
       ],
       pagination: {
-        pageIndex: 0,
+        start: 0,
         pageSize: 50,
         total: 0,
       },
@@ -855,7 +855,7 @@ export default {
           }
         }
         if (!unRefresh) {
-          this.pagination.pageIndex = 1
+          this.pagination.start = 1
           this.getFileList()
         }
       }
@@ -881,14 +881,14 @@ export default {
       this.beforeLoadData(onLoad)
       api.fileList({
         userId: this.$store.state.user.userId,
-        currentDirectory: this.$route.query.path,
+        path: this.$route.query.path,
         queryFileType: this.queryFileType,
         sortableProp: this.sortableProp,
         order: this.order,
         isFolder: this.queryCondition.isFolder,
         isFavorite: this.queryCondition.isFavorite,
         queryCondition: this.queryCondition,
-        pageIndex: this.pagination.pageIndex,
+        start: this.pagination.start,
         pageSize: this.pagination.pageSize,
       }).then(res => {
         this.loadData(res, onLoad)
@@ -904,7 +904,7 @@ export default {
           username: this.$store.state.user.name,
           keyword: key,
           currentDirectory: this.$route.query.path,
-          pageIndex: this.pagination.pageIndex,
+          start: this.pagination.start,
           pageSize: this.pagination.pageSize
         }).then(res => {
           this.loadData(res, onLoad)
@@ -917,9 +917,9 @@ export default {
     // 请求之前的准备
     beforeLoadData(onLoad) {
       if (onLoad) {
-        this.pagination.pageIndex++
+        this.pagination.start++
       } else {
-        this.pagination.pageIndex = 1
+        this.pagination.start = 1
       }
       this.finished = false;
       this.fileList = []
@@ -928,7 +928,7 @@ export default {
     loadData(res, onLoad) {
       if (onLoad) {
         res.data.forEach((file, index) => {
-          file['index'] = (this.pagination.pageIndex - 1) * this.pagination.pageSize + index
+          file['index'] = (this.pagination.start - 1) * this.pagination.pageSize + index
           this.fileList.push(file)
         })
       } else {

@@ -65,7 +65,7 @@
         :loading="loading"
         :hasSelection="false"
         :tableHeader="tableHeader"
-        :page-index="pageIndex"
+        :page-index="start"
         :pagination="pagination"
         @pageChange="pageChange"
         @sizeChange="pageChange"
@@ -100,9 +100,9 @@ export default {
       dataList: [],
       loading: false,
       // 分页信息
-      pageIndex: 1,
+      start: 1,
       pagination: {
-        pageIndex: 1,
+        start: 1,
         pageSize: 10,
         pageTotal: 0
       },
@@ -195,7 +195,7 @@ export default {
       this.queryLogList()
     },
     queryLogList() {
-      this.$refs.tableList.initPageIndex()
+      this.$refs.tableList.initstart()
       this.getLogList()
     },
     getLogList() {
@@ -205,7 +205,7 @@ export default {
       }
       this.loading = true
       logApi.logList({
-        page: this.pagination.pageIndex,
+        page: this.pagination.start,
         pageSize: this.pagination.pageSize,
         ...this.queryCondition
       }).then(res => {

@@ -213,7 +213,7 @@
       background
       layout="prev, pager, next"
       :hide-on-single-page="true"
-      :current-page.sync="pagination.pageIndex"
+      :current-page.sync="pagination.start"
       :page-sizes="pagination.pageSizes"
       :page-size="pagination.pageSize"
       :total="pagination.total"
@@ -262,7 +262,7 @@
         fileList: [],
         pagination: {
           fileId: false,
-          pageIndex: 1,
+          start: 1,
           pageSize: 256,
           total: 0,
           pageSizes: [10,20,30,40,50]
@@ -522,7 +522,7 @@
         api.accessShareOpenDir({
           share: this.shareId,
           fileId: fileId,
-          pageIndex: this.pagination.pageIndex,
+          start: this.pagination.start,
           pageSize: this.pagination.pageSize
         }).then(res => {
           this.isLoading = false
@@ -542,7 +542,7 @@
         this.tableLoading = true
         api.accessShare({
           share:this.shareId,
-          pageIndex: this.pagination.pageIndex,
+          start: this.pagination.start,
           pageSize: this.pagination.pageSize
         }).then(res => {
           this.isLoading = false
@@ -591,8 +591,8 @@
           this.linkFailed = true
         })
       },
-      currentChange(pageIndex) {
-        this.pagination.pageIndex = pageIndex
+      currentChange(start) {
+        this.pagination.start = start
         if(this.pagination.fileId){
           this.accessShareOpenDir(this.pagination.fileId)
         }else{
@@ -903,7 +903,7 @@
           item['fileId'] = row.id
           item['index'] = this.pathList.length
           this.pathList.push(item)
-          this.pagination.pageIndex = 1
+          this.pagination.start = 1
           this.$router.push(`/s?s=${this.shareId}&vmode=${this.vmode}`)
           this.accessShareOpenDir(row.id)
         } else {

@@ -102,7 +102,7 @@ export default {
   // 搜索文件🔍-打开目录
   searchFileAndOpenDir: function(params) {
     return request({
-      url: 'search-file-open',
+      url: 'list',
       method: 'get',
       params
     })

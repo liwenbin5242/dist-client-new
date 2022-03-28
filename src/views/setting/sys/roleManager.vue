@@ -115,7 +115,7 @@ export default {
         },
         // 分页信息
         pagination: {
-          pageIndex: 1,
+          start: 1,
           pageSize: 15,
           pageTotal: 0
         },
@@ -183,7 +183,7 @@ export default {
       getRoleList(){
         this.loading = true
         roleApi.roleList({
-          page: this.pagination.pageIndex,
+          page: this.pagination.start,
           pageSize: this.pagination.pageSize,
           ...this.queryCondition
         }).then(res => {

@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: '网盘',
+  title: '网盘目录',
 
   /**
    * @type {boolean} true | false
