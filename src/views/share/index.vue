@@ -272,7 +272,7 @@
         if (onLoad) {
           this.pagination.start++
         } else {
-          this.pagination.start = 1
+          this.pagination.start = 0
         }
         this.tableLoading = true
         this.finished = false
@@ -284,11 +284,11 @@
           sortableProp: this.sortable.prop,
           order: this.sortable.order,
           start: this.pagination.start,
-          pageSize: this.pagination.pageSize
+          limit: this.pagination.limit
         }).then(res => {
           if(onLoad){
             res.data.forEach((file,number) => {
-              file['index'] = (this.pagination.start - 1) * this.pagination.pageSize + number
+              file['index'] = (this.pagination.start) * this.pagination.limit + number
               this.fileList.push(file)
             });
           }else{
@@ -322,7 +322,7 @@
       sortChange(column) {
         this.sortable.prop = column.prop
         this.sortable.order = column.order
-        this.pagination.start = 1
+        this.pagination.start = 0
         this.getFileList();
       },
       // 收集选中的index值作为数组 传递给rowRed判断变换样式

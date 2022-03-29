@@ -903,7 +903,7 @@
           item['fileId'] = row.id
           item['index'] = this.pathList.length
           this.pathList.push(item)
-          this.pagination.start = 1
+          this.pagination.start = 0
           this.$router.push(`/s?s=${this.shareId}&vmode=${this.vmode}`)
           this.accessShareOpenDir(row.id)
         } else {

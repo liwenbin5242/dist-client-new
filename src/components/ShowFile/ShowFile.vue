@@ -1696,7 +1696,7 @@ export default {
           }
         }
         if (!unRefresh) {
-          this.pagination.start = 1
+          this.pagination.start = 0
           this.getFileList()
         }
       }
@@ -1904,7 +1904,7 @@ export default {
       if (onLoad) {
         this.pagination.start++
       } else {
-        this.pagination.start = 1
+        this.pagination.start = 0
       }
       this.tableLoading = true
       this.finished = false
@@ -1916,7 +1916,7 @@ export default {
       }
       if (onLoad) {
         res.data.forEach((file, number) => {
-          file['index'] = (this.pagination.start - 1) * this.pagination.pageSize + number
+          file['index'] = (this.pagination.start) * this.pagination.limit + number
           this.fileList.push(file)
         });
       } else {
@@ -1930,7 +1930,7 @@ export default {
         }, 0)
       }
       // 数据全部加载完成
-      if (this.fileList.length >= res.count) {
+      if (this.fileList.length === 0) {
         this.finished = true;
       }
       this.tableLoading = false
@@ -1961,6 +1961,7 @@ export default {
         item1['searchKey'] = key
         this.pathList.push(item1)
         this.$router.push(`?vmode=${this.vmode}&search-file=${key}`)
+        console.log(this.$route.query.path, '000000')
         api.searchFile({
           userId: this.$store.state.user.userId,
           username: this.$store.state.user.name,
@@ -1969,7 +1970,7 @@ export default {
           order: this.sortable.order,
           dir: this.$route.query.path,
           start: this.pagination.start,
-          pageSize: this.pagination.pageSize
+          limit: this.pagination.limit
         }).then(res => {
           this.loadData(res, onLoad)
           this.path = '/'
@@ -1983,9 +1984,9 @@ export default {
       api.searchFileAndOpenDir({
         userId: this.$store.state.user.userId,
         id: row.id,
-        dir: this.$route.query.path,
+        dir: row.path,
         start: this.pagination.start,
-        pageSize: this.pagination.pageSize
+        pageSize: this.pagination.limit
       }).then(res => {
         this.loadData(res, onLoad)
         this.listModeSearch = true
@@ -1998,9 +1999,9 @@ export default {
       api.searchFileAndOpenDir({
         userId: this.$store.state.user.userId,
         id: row.id,
-        dir: this.$route.query.path,
+        dir: row.path,
         start: this.pagination.start,
-        pageSize: this.pagination.pageSize
+        pageSize: this.pagination.limit
       }).then(res => {
         this.loadData(res, onLoad)
       })
@@ -2008,10 +2009,12 @@ export default {
     },
     getFileList(onLoad) {
       this.beforeLoadData(onLoad)
+      console.log(this.$route.query, '999999')
+      console.log(this.$route.query.path, '33333333333')
       api.fileList({
         userId: this.$store.state.user.userId,
         username: this.$store.state.user.name,
-        dir: this.$route.query.path,
+        dir: this.$route.query.path || '/',
         queryFileType: this.queryFileType,
         sortableProp: this.sortable.prop,
         order: this.sortable.order,
@@ -2019,7 +2022,7 @@ export default {
         isFavorite: this.queryCondition.isFavorite,
         queryCondition: this.queryCondition,
         start: this.pagination.start,
-        pageSize: this.pagination.pageSize
+        limit: this.pagination.limit
       }).then(res => {
         this.loadData(res, onLoad)
       })
@@ -2028,9 +2031,9 @@ export default {
       this.beforeLoadData(onLoad)
       api.fileList({
         userId: this.$store.state.user.userId,
-        currentDirectory: this.path,
+        dir: this.path,
         start: this.pagination.start,
-        pageSize: this.pagination.pageSize
+        limit: this.pagination.pageSize
       }).then(res => {
         this.loadData(res, onLoad)
       })
@@ -2098,7 +2101,7 @@ export default {
       if (this.orderCustom || this.listModeSearch) {
         this.sortable.prop = prop
         this.sortable.order = order
-        this.pagination.start = 1
+        this.pagination.start = 0
         if (this.listModeSearch) {
           this.searchFile(this.searchFileName)
         } else {
@@ -3055,7 +3058,7 @@ export default {
           item['search'] = true
           item['row'] = row
           this.pathList.push(item)
-          this.pagination.start = 1
+          this.pagination.start = 0
           this.$router.push(`?vmode=${this.vmode}&search-file=${row.id}`)
           this.searchFileAndOpenDir(row)
         } else {
@@ -3066,7 +3069,7 @@ export default {
           }
           const item = {'folder': row.name}
           this.pathList.push(item)
-          this.pagination.start = 1
+          this.pagination.start = 0
           const path = encodeURIComponent(this.path);
           this.$router.push(`?vmode=${this.vmode}&path=${path}`)
           this.openDir(row)

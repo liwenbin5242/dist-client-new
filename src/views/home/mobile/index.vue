@@ -855,7 +855,7 @@ export default {
           }
         }
         if (!unRefresh) {
-          this.pagination.start = 1
+          this.pagination.start = 0
           this.getFileList()
         }
       }
@@ -889,7 +889,7 @@ export default {
         isFavorite: this.queryCondition.isFavorite,
         queryCondition: this.queryCondition,
         start: this.pagination.start,
-        pageSize: this.pagination.pageSize,
+        limit: this.pagination.limit,
       }).then(res => {
         this.loadData(res, onLoad)
       }).catch(e => {
@@ -919,7 +919,7 @@ export default {
       if (onLoad) {
         this.pagination.start++
       } else {
-        this.pagination.start = 1
+        this.pagination.start = 0
       }
       this.finished = false;
       this.fileList = []
